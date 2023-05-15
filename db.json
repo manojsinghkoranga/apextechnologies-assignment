@@ -1,0 +1,39 @@
+{
+  "simulation": [
+    {
+      "scenario": "my scenario",
+      "Time": 15,
+      "Vehicles": [
+        {
+          "name": "nexon",
+          "x": "10",
+          "y": "10",
+          "speed": "20",
+          "direction": "Downwards"
+        }
+      ],
+      "id": 1
+    },
+    {
+      "scenario": "Test Scenario",
+      "Time": 12,
+      "Vehicles": [],
+      "id": 2
+    },
+    {
+      "scenario": "2Vehicles",
+      "Time": 12,
+      "Vehicles": [],
+      "id": 3
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
