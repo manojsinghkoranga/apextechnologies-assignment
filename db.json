@@ -1,39 +1,46 @@
 {
   "simulation": [
     {
-      "scenario": "my scenario",
-      "Time": 15,
+      "scenario": "new scenario",
+      "Time": 10,
       "Vehicles": [
         {
+          "name": "toyota",
+          "x": "35",
+          "y": "60",
+          "speed": "25",
+          "direction": "Towards"
+        },
+        {
+          "name": "tata",
+          "x": "380",
+          "y": "380",
+          "speed": "25",
+          "direction": "Towards"
+        },
+        {
           "name": "nexon",
-          "x": "10",
-          "y": "10",
-          "speed": "20",
-          "direction": "Downwards"
+          "x": "999",
+          "y": "30",
+          "speed": "18",
+          "direction": "Towards"
         }
       ],
       "id": 1
     },
     {
-      "scenario": "Test Scenario",
-      "Time": 12,
-      "Vehicles": [],
+      "scenario": "new",
+      "Time": 20,
+      "Vehicles": [
+        {
+          "name": "tata",
+          "x": "999",
+          "y": "20",
+          "speed": "20",
+          "direction": "Backwards"
+        }
+      ],
       "id": 2
-    },
-    {
-      "scenario": "2Vehicles",
-      "Time": 12,
-      "Vehicles": [],
-      "id": 3
     }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment"
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }

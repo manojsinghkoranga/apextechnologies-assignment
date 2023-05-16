@@ -2,10 +2,12 @@ import { styled } from "styled-components";
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddVehicle = () => {
+const EditVehicle = () => {
+    const {id, index} = useParams();
     const [data, setData] = useState([]);
+    const [vehicleArray, setVehicleArray] = useState([]);
     const [selectedScenario, setSelectedSccenario] = useState("");
     const [vehicleName, setVehicleName] = useState("");
     const [vehicleSpeed, setVehicleSpeed] = useState("");
@@ -18,21 +20,31 @@ const AddVehicle = () => {
         const FetchData = async() => {
             const response = await axios.get('http://localhost:3030/simulation');
             setData(response.data);
-
-            if(response.data.length === 0){
-                alert("create a scenario");
-            }
         }
         FetchData();
     },[])
 
-    useEffect(() => {
+    const FillData = () => {
         if(data.length > 0){
-            setSelectedSccenario(data[0].id);
+            data.forEach((obj) => {
+                if(obj.id == id){
+                    setVehicleArray(obj.Vehicles);
+                    let array = obj.Vehicles[index];
+                    setVehicleName(array.name);
+                    setVehicleSpeed(array.speed);
+                    setDirection(array.direction);
+                    setX(array.x);
+                    setY(array.y);
+                }   
+            })
         }
+    }
+
+    useEffect(() => {
+        FillData();
     }, [data])
     
-    const AddData = async() => {
+    const saveData = async() => {
         let obj;
         data.forEach((scenario) => {
             if(scenario.id == selectedScenario){
@@ -57,11 +69,25 @@ const AddVehicle = () => {
             limitY = 0;
         }
 
-        const vehicle = {name: vehicleName, x: limitX, y: limitY, speed: vehicleSpeed, direction:direction};
-        obj.Vehicles.push(vehicle);
+        let array = [...vehicleArray];
+        array[index].name = vehicleName;
+        array[index].speed = vehicleSpeed;
+        array[index].x = x;
+        array[index].y = y;
+        array[index].direction = direction;
+        
+        let scenario;
+
+        data.forEach((obj) => {
+            if(id == obj.id){
+                scenario = obj;
+            }
+        })
+
+        scenario.Vehicles = array;
         try{
-            const response = await axios.put(`http://localhost:3030/simulation/${selectedScenario}`, obj);
-            alert("Vehicle has been added.");
+            const response = await axios.put(`http://localhost:3030/simulation/${Number(id)}`, scenario);
+            alert("Vehicle has been updated.");
 
             setVehicleName("");
             setVehicleSpeed("");
@@ -72,14 +98,8 @@ const AddVehicle = () => {
             console.log(error);
             alert("something went wrong");
         }
-    }
 
-    const handleResetData = () => {
-        setVehicleName("");
-        setVehicleSpeed("");
-        setX("");
-        setY("");
-        setDirection("Towards");
+        navigate("/");
     }
 
     return (
@@ -91,7 +111,7 @@ const AddVehicle = () => {
                 <Inputcontainer>
                     <List>
                         <label htmlFor="select-scenario">Scenarios List</label>
-                        <select id="select-scenario" value={selectedScenario} onChange={(event) => {setSelectedSccenario(event.target.value)}}>
+                        <select id="select-scenario" value={id} onChange={(event) => {setSelectedSccenario(event.target.value)}}>
                             {data.map((obj) => {
                                 return <option key={obj.id} value={obj.id}>{obj.scenario}</option>
                             })}
@@ -124,8 +144,8 @@ const AddVehicle = () => {
                     </Direction>
                 </Inputcontainer>
                 <Buttons>
-                    <Add onClick={AddData}>Add</Add>
-                    <Reset onClick={handleResetData}>Reset</Reset>
+                    <Add onClick={saveData}>Add</Add>
+                    <Reset onClick={FillData}>Reset</Reset>
                     <Goback onClick={() => navigate("/")}>Go Back</Goback>
                 </Buttons>
 
@@ -360,4 +380,4 @@ const Goback = styled.button`
     font-weight: 600;
 `;
 
-export default AddVehicle;
+export default EditVehicle;

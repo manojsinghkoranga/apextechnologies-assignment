@@ -1,25 +1,32 @@
 import { styled } from "styled-components";
 import Sidebar from "./Sidebar";
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import axios from "axios";
 import { useEffect, useState } from "react";
+import OneScenario from "./Scenario";
+import { useNavigate } from "react-router-dom";
 
 const array = ["Scenario Id", "Scenario Name", "Scenario Time", "Number of Vehicle", "Add Vehicle", "Edit", "Delete"]
-// const simulation = ["1", "bus", 20, 20, <AddCircleIcon />, <ModeEditOutlineOutlinedIcon />, <DeleteOutlineOutlinedIcon />]
-// const simulation2 = ["2", "bus", 20, 20, <AddCircleIcon />, <ModeEditOutlineOutlinedIcon />, <DeleteOutlineOutlinedIcon />]
 
 const AllScenario = () => {
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
+
+    const FetchData = async() => {
+        const response = await axios.get('http://localhost:3030/simulation');
+        setData(response.data);
+    }
 
     useEffect(() => {
-        const FetchData = async() => {
-            const response = await axios.get('http://localhost:3030/simulation');
-            setData(response.data);
-        }
         FetchData();
     }, [])
+
+    const HandleDeleteAll = () => {
+        data.forEach((scenario) => {
+            const url = `http://localhost:3030/simulation/${Number(scenario.id)}`
+            axios.delete(url);
+        })
+        window.location.reload()
+    }
 
     return (
         <Container>
@@ -28,9 +35,9 @@ const AllScenario = () => {
                 <div>
                     <Header>All Scenarios</Header>
                     <Buttons>
-                        <Newscenario>New Scenario</Newscenario>
-                        <Addvehicle>Add Vehicle</Addvehicle>
-                        <Deleteall>Delete All</Deleteall>
+                        <Newscenario onClick={() => navigate("/AddScenario")}>New Scenario</Newscenario>
+                        <Addvehicle onClick={() => navigate("/AddVehicle")}>Add Vehicle</Addvehicle>
+                        <Deleteall onClick={HandleDeleteAll}>Delete All</Deleteall>
                     </Buttons>
                 </div> 
                 <Table>
@@ -44,15 +51,7 @@ const AllScenario = () => {
                         
                         {data && <Tbody>
                             {data.map((scenario) => {
-                                return <tr>
-                                    <td>{scenario.id}</td>
-                                    <td>{scenario.scenario}</td>
-                                    <td>{scenario.Time}</td>
-                                    <td>{scenario.Vehicles.length}</td>
-                                    <td ><AddCircleIcon /></td>
-                                    <td><ModeEditOutlineOutlinedIcon /></td>
-                                    <td><DeleteOutlineOutlinedIcon /></td>
-                                </tr>
+                                return <OneScenario scenario={scenario} fetchData={FetchData}/>
                             })}
                             
                         </Tbody>}

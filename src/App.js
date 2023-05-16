@@ -5,6 +5,9 @@ import AddScenario from './components/AddScenario';
 import AllScenario from './components/AllScenario';
 import AddVehicle from './components/AddVehicle';
 import Test from './components/test';
+import Addvehiclewithparams from './components/Addvehicleparams';
+import AddScenarioedit from './components/Addscenarioedit';
+import EditVehicle from './components/EditVehicle';
 
 const router = createBrowserRouter ([
   {
@@ -19,6 +22,15 @@ const router = createBrowserRouter ([
   },{
     path: "/AddVehicle",
     element: (<AddVehicle />)
+  },{
+    path: "/AddVehicle/:id/edit",
+    element: (<Addvehiclewithparams />)
+  },{
+    path: "/AddScenario/:id/edit",
+    element: (<AddScenarioedit />)
+  },{
+    path: "/EditVehicle/:id/:index/edit",
+    element: (<EditVehicle />)
   }
 ])
 

@@ -2,9 +2,9 @@ import { styled } from "styled-components";
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddVehicle = () => {
+const Addvehiclewithparams = () => {
     const [data, setData] = useState([]);
     const [selectedScenario, setSelectedSccenario] = useState("");
     const [vehicleName, setVehicleName] = useState("");
@@ -12,6 +12,8 @@ const AddVehicle = () => {
     const [x, setX] = useState("");
     const [y, setY] = useState("");
     const [direction, setDirection] = useState("Towards");
+
+    const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,15 +24,10 @@ const AddVehicle = () => {
             if(response.data.length === 0){
                 alert("create a scenario");
             }
+            setSelectedSccenario(id);
         }
         FetchData();
     },[])
-
-    useEffect(() => {
-        if(data.length > 0){
-            setSelectedSccenario(data[0].id);
-        }
-    }, [data])
     
     const AddData = async() => {
         let obj;
@@ -39,30 +36,25 @@ const AddVehicle = () => {
                 obj = scenario;
             }
         })
-
         let limitX = x;
         let limitY = y;
-
         if(limitX  > 1160){
             limitX  = 1160;
         }
         if(limitX  < 0){
             limitX  = 0;
         }
-
         if(limitY > 1160){
             limitY = 1160;
         }
         if(limitY < 0){
             limitY = 0;
         }
-
         const vehicle = {name: vehicleName, x: limitX, y: limitY, speed: vehicleSpeed, direction:direction};
         obj.Vehicles.push(vehicle);
         try{
             const response = await axios.put(`http://localhost:3030/simulation/${selectedScenario}`, obj);
             alert("Vehicle has been added.");
-
             setVehicleName("");
             setVehicleSpeed("");
             setX("");
@@ -81,6 +73,7 @@ const AddVehicle = () => {
         setY("");
         setDirection("Towards");
     }
+
 
     return (
         <Container>
@@ -126,13 +119,14 @@ const AddVehicle = () => {
                 <Buttons>
                     <Add onClick={AddData}>Add</Add>
                     <Reset onClick={handleResetData}>Reset</Reset>
-                    <Goback onClick={() => navigate("/")}>Go Back</Goback>
+                    <Goback onClick={() => navigate("/AllScenario")}>Go Back</Goback>
                 </Buttons>
 
             </Section>
         </Container>
     )
 }
+
 
 const Container = styled.div`
     width: 100%;
@@ -360,4 +354,4 @@ const Goback = styled.button`
     font-weight: 600;
 `;
 
-export default AddVehicle;
+export default Addvehiclewithparams;

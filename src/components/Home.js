@@ -1,12 +1,12 @@
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { styled } from "styled-components";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteButton from "./DeleteButton";
+import EditButton from "./Editbutton";
+import MovingElement from "./MovingElement";
 
 const array = ["Vehicle Id", "Vehicle Name", "Position X", "Position Y", "Speed", "Direction", "Edit", "Delete"]
 const array2 = [];
@@ -15,8 +15,11 @@ for(let i=1; i<=84; i++){
 }
 const Home = () => {
     const [data, setData] = useState([]);
+    const [scenario, setScenario] = useState("");
+    const [vehicles, setVehicles] = useState([]);
+    const [time, setTime] = useState(0);
+    const [simulationStart , setSimulationStart] = useState(false);
     const navigate = useNavigate();
-
 
     const FetchData = async() => {
         const response = await axios.get('http://localhost:3030/simulation');
@@ -26,21 +29,20 @@ const Home = () => {
     useEffect(() => {
         FetchData();
     }, [])
-
-    const [scenario, setScenario] = useState("");
-    const [vehicles, setVehicles] = useState([]);
     
     useEffect(() => {
         if(data.length > 0){
             setScenario(data[0].id);
+            setTime(data[0].Time)
         }
     }, [data])
 
     useEffect(() => {
-        if(scenario){
+        if(scenario != ""){
             data.map((obj) => {
-                if(obj.id === scenario){
+                if(obj.id == scenario){
                     setVehicles(obj.Vehicles);
+                    setTime(obj.Time)
                 }
             })
         }
@@ -61,7 +63,14 @@ const Home = () => {
     const handleNavigate = () => {
         navigate("/AddVehicle")
     }
-   
+
+    const handleSimulation = () => {
+        setSimulationStart(true);
+        setTimeout(() => {
+            setSimulationStart(false);
+        }, time*1000)
+    }
+
     return (
         <Container>
             <Sidebar class={"Home"}/>
@@ -90,7 +99,7 @@ const Home = () => {
                                     <td key={obj.y+'y'}>{obj.y}</td>
                                     <td key={obj.speed+"speed"}>{obj.speed}</td>
                                     <td key={obj.direction+index}>{obj.direction}</td>
-                                    <td><ModeEditOutlineOutlinedIcon /></td>
+                                    <td ><EditButton index={index} scenario={scenario}/></td>
                                     <td><DeleteButton index={index} vehicles={vehicles} setVehicles={setVehicles} UpdateVehicles={UpdateVehicles}/></td>
                                 </tr>
                             })}
@@ -99,13 +108,21 @@ const Home = () => {
                     {vehicles.length == 0 && <NoVehicle> <SentimentVeryDissatisfiedIcon /> <p>no vehicles has been added!</p> <Addveh onClick={handleNavigate}>Add Vehicles</Addveh></NoVehicle>}
                 </Scenario>
                 <Buttons>
-                    <Start key={"start"}>Start Simulation</Start>
-                    <Stop key={"stop"}>Stop Simulation</Stop>
+                    <Start key={"start"} onClick={handleSimulation}>Start Simulation</Start>
+                    <Stop key={"stop"} onClick={() => setSimulationStart(false)}>Stop Simulation</Stop>
                 </Buttons>
                 <Simulator>
-                    {array2.map((ele) => {
-                        return <Box key={ele}></Box>
-                    })}
+                    <Graph>
+                        {array2.map((ele) => {
+                            return <Box key={ele}></Box>
+                        })}
+                    </Graph>
+                    <Automobile>
+                        {vehicles.map((obj, index) => {
+                            return <MovingElement obj={obj} index={index} simulationStart={simulationStart}/>
+                        })}
+                    </Automobile>
+                    
                 </Simulator>
             </Section>
         </Container>
@@ -207,9 +224,8 @@ const Simulator = styled.div`
     border: 2px solid green;
     height: 450px;
     width: 1168px;
-    display: grid;
-    grid-template-rows: repeat(6, auto);
-    grid-template-columns: repeat(14, auto);
+    position: relative;
+    overflow: hidden;
 `;
 
 const Box = styled.div`
@@ -238,6 +254,23 @@ const Addveh = styled.button`
     height: 30px;
     width: 100px;
     font-weight: 600;
+`;
+
+const Graph = styled.div`
+    height: 450px;
+    width: 1168px;
+    display: grid;
+    grid-template-rows: repeat(6, auto);
+    grid-template-columns: repeat(14, auto);
+`;
+
+const Automobile = styled.div`
+    position: relative;
+    top: -450px;
+    left: 0px;
+    height: 450px;
+    width: 1168px;
+    background-color: transparent;
 `;
 
 

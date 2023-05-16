@@ -1,31 +1,41 @@
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from "axios";
 
-const AddScenario = () => {
+const AddScenarioedit = () => {
     const navigate = useNavigate();
 
     const [scenarioName, setScenarioName] = useState("");
-    const [errorName, setErrorName] = useState("");
     const [scenarioTime, setScenarioTime] = useState("");
-    const [errorTime, setErrorTime] = useState("");
+    const [data, setData] = useState([]);
+
+    const {id} = useParams();
+
+    const FetchData = async() => {
+        const response = await axios.get("http://localhost:3030/simulation");
+        setData(response.data);
+    }
+
+    useEffect(() => {
+        FetchData();
+    }, [])
+
+    useEffect(() => {
+        data.forEach((obj) => {
+            if(obj.id == id){
+                setScenarioName(obj.scenario);
+                setScenarioTime(obj.Time);
+            }  
+        })
+    }, [data])
+
 
     const AddData = async() => {
-        setErrorName("");
-        setErrorTime("");
-        if(scenarioName === ""){
-            setErrorName("Scenario is required!")
-            return;
-        }
-        if(scenarioTime === ""){
-            setErrorTime("Scenario is required!");
-            return;
-        }
         const data = {scenario: scenarioName, Time: Number(scenarioTime), Vehicles: []};
         
-        let response = await axios.post("http://localhost:3030/simulation", data);
+        let response = await axios.put(`http://localhost:3030/simulation/${Number(id)}`, data);
         if(response){
             alert("data submitted successfully");
             setScenarioName("");
@@ -33,17 +43,17 @@ const AddScenario = () => {
         }else{
             alert("something went wrong");
         }
+
+        navigate("/AllScenario")
     }
 
     const ResetData = () => {
         setScenarioName("");
         setScenarioTime("");
-        setErrorName("");
-        setErrorTime("");
     }
 
     const Back = () => {
-        navigate('/');
+        navigate('/AllScenario');
     }
 
     return (
@@ -57,16 +67,14 @@ const AddScenario = () => {
                 <Scenarioname>
                     <label htmlFor="scenario-input">Scenario Name</label>
                     <input id="scenario-input" placeholder="Test Scenario" value={scenarioName} onChange={(event) => setScenarioName(event.target.value) }/>
-                    <p>{errorName}</p>
                 </Scenarioname>
                 <ScenarioTime>
                     <label htmlFor="scenario-time">Scenario Time (Seconds)</label>
                     <input type="number" pattern="[0-9]*" id="scenario-time" placeholder="10" value={scenarioTime} onChange={(event) => setScenarioTime(event.target.value) }/>
-                    <p>{errorTime}</p>
                 </ScenarioTime>
             </Inputbox>
             <Buttons>
-                <Add onClick={AddData}>Add</Add>
+                <Add onClick={AddData}>Save</Add>
                 <Reset onClick={ResetData}>Reset</Reset>
                 <Goback onClick={Back}>Go Back</Goback>
             </Buttons>
@@ -125,14 +133,6 @@ const Scenarioname = styled.div`
         box-sizing: border-box;
         padding-left: 30px;
     }
-    & > p{
-        width: 100%;
-        text-align: center;
-        /* border: 2px solid red; */
-        color: red;
-        background-color: transparent;
-        border-radius: 5px;
-    }
 `;
 
 const ScenarioTime = styled.div`
@@ -157,17 +157,10 @@ const ScenarioTime = styled.div`
         -webkit-appearance: none;
         margin: 0;
     }
+
+
     & > input[type=number] {
     -moz-appearance: textfield;
-    }
-
-    & > p{
-        width: 100%;
-        text-align: center;
-        /* border: 2px solid red; */
-        color: red;
-        background-color: transparent;
-        border-radius: 5px;
     }
 `;
 
@@ -205,4 +198,4 @@ const Goback = styled.button`
     color: white;
     font-weight: 600;
 `;
-export default AddScenario;
+export default AddScenarioedit;
