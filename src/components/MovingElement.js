@@ -4,7 +4,6 @@ import { styled } from "styled-components";
 const colors = [
     'rgb(255, 0, 0)',        // Red
     'rgb(0, 255, 0)',        // Green
-    'rgb(0, 0, 255)',        // Blue
     'rgb(255, 255, 0)',      // Yellow
     'rgb(255, 0, 255)',      // Magenta
     'rgb(0, 255, 255)',      // Cyan
@@ -22,6 +21,7 @@ const colors = [
     'rgb(128, 128, 0)',      // Olive
     'rgb(0, 128, 128)',      // Teal
     'rgb(255, 255, 255)',    // White
+    'rgb(0, 0, 255)',        // Blue
 ];
 const MovingElement = (props) => {
         const {obj, index, simulationStart} = props;

@@ -24,6 +24,13 @@
           "y": "30",
           "speed": "5",
           "direction": "Backwards"
+        },
+        {
+          "name": "xuv700",
+          "x": "250",
+          "y": "150",
+          "speed": "30",
+          "direction": "Downwards"
         }
       ],
       "id": 1
