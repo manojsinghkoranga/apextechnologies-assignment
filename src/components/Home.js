@@ -56,7 +56,7 @@ const Home = () => {
             }
         })
         obj.Vehicles = array;
-
+        
         const response = await axios.put(`http://localhost:3030/simulation/${scenario}`, obj);
     }
 
