@@ -41,7 +41,7 @@ const Home = () => {
         if(scenario != ""){
             data.map((obj) => {
                 if(obj.id == scenario){
-                    setVehicles(obj.Vehicles);
+                    setVehicles([...obj.Vehicles]);
                     setTime(obj.Time)
                 }
             })
@@ -73,10 +73,6 @@ const Home = () => {
 
     const HandleScenario = (event) => {
         setScenario(event.target.value);
-        setSimulationStart(true);
-        setTimeout(() => {
-            setSimulationStart(false);
-        }, 100)
     }
 
     return (

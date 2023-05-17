@@ -28,7 +28,8 @@ const MovingElement = (props) => {
         const [coordinateX, setCoordinateX] = useState(Number(obj.x));
         const [coordinateY, setCoordinateY] = useState(Number(obj.y));
         const direction = obj.direction;
-        const speed = Number(obj.speed);
+        const speed = Number(obj.speed);debugger
+
 
         useEffect(() => {
             let interval;
@@ -61,7 +62,7 @@ const MovingElement = (props) => {
             return () => {
                 clearInterval(interval);
             };
-        }, [simulationStart])
+        }, [simulationStart, props])
 
     return (
         <>
