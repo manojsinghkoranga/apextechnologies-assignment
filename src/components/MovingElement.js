@@ -28,15 +28,34 @@ const MovingElement = (props) => {
         const [coordinateX, setCoordinateX] = useState(Number(obj.x));
         const [coordinateY, setCoordinateY] = useState(Number(obj.y));
         const direction = obj.direction;
+        const speed = Number(obj.speed);
 
         useEffect(() => {
             let interval;
             if(simulationStart){
+                if(direction === "Towards")
                 interval = setInterval(() => {
-                    setCoordinateX(prevState => prevState + 10);
+                    setCoordinateX(prevState => prevState + speed);
+                }, 200)
+
+                if(direction === "Backwards")
+                    interval = setInterval(() => {
+                    setCoordinateX(prevState => prevState - speed);
+                }, 200)
+
+                if(direction === "Upwards")
+                    interval = setInterval(() => {
+                    setCoordinateY(prevState => prevState - speed);
+                }, 200)
+
+                if(direction === "Downwards")
+                    interval = setInterval(() => {
+                    setCoordinateY(prevState => prevState + speed);
                 }, 200)
             }else{
                 clearInterval(interval);
+                setCoordinateX(Number(obj.x));
+                setCoordinateY(Number(obj.y));
             }
 
             return () => {
@@ -46,7 +65,7 @@ const MovingElement = (props) => {
 
     return (
         <>
-            <MovableItem color={colors[index%20]} x={coordinateX} y={coordinateY}>{index + 1}</MovableItem>
+            <MovableItem key={obj.name+obj.id} color={colors[index%20]} x={coordinateX} y={coordinateY}>{index + 1}</MovableItem>
         </>
     )
 }

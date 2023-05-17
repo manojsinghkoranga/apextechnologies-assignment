@@ -43,15 +43,15 @@ const AddVehicle = () => {
         let limitX = x;
         let limitY = y;
 
-        if(limitX  > 1160){
-            limitX  = 1160;
+        if(limitX  > 1168){
+            limitX  = 1168;
         }
         if(limitX  < 0){
             limitX  = 0;
         }
 
-        if(limitY > 1160){
-            limitY = 1160;
+        if(limitY > 450){
+            limitY = 450;
         }
         if(limitY < 0){
             limitY = 0;

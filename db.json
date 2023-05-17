@@ -7,7 +7,7 @@
         {
           "name": "toyota",
           "x": "35",
-          "y": "60",
+          "y": "150",
           "speed": "25",
           "direction": "Towards"
         },
@@ -15,15 +15,15 @@
           "name": "tata",
           "x": "380",
           "y": "380",
-          "speed": "25",
-          "direction": "Towards"
+          "speed": "10",
+          "direction": "Upwards"
         },
         {
           "name": "nexon",
           "x": "999",
           "y": "30",
-          "speed": "18",
-          "direction": "Towards"
+          "speed": "5",
+          "direction": "Backwards"
         }
       ],
       "id": 1
@@ -33,14 +33,42 @@
       "Time": 20,
       "Vehicles": [
         {
-          "name": "tata",
-          "x": "999",
-          "y": "20",
+          "name": "thar",
+          "x": "350",
+          "y": "250",
+          "speed": "15",
+          "direction": "Towards"
+        },
+        {
+          "name": "harrier",
+          "x": "1000",
+          "y": "300",
           "speed": "20",
           "direction": "Backwards"
         }
       ],
       "id": 2
+    },
+    {
+      "scenario": "Test scenario",
+      "Time": 12,
+      "Vehicles": [
+        {
+          "name": "honda",
+          "x": "15",
+          "y": "30",
+          "speed": "18",
+          "direction": "Towards"
+        },
+        {
+          "name": "suzuki",
+          "x": "1100",
+          "y": "300",
+          "speed": "5",
+          "direction": "Backwards"
+        }
+      ],
+      "id": 3
     }
   ]
 }

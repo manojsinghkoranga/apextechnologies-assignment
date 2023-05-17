@@ -71,13 +71,21 @@ const Home = () => {
         }, time*1000)
     }
 
+    const HandleScenario = (event) => {
+        setScenario(event.target.value);
+        setSimulationStart(true);
+        setTimeout(() => {
+            setSimulationStart(false);
+        }, 100)
+    }
+
     return (
         <Container>
             <Sidebar class={"Home"}/>
             <Section> 
                 <Scenario>
                     <Label htmlFor="select">Scenario</Label>
-                    <Select id="select" value={scenario} onChange={(event) => setScenario(event.target.value)}>
+                    <Select id="select" value={scenario} onChange={HandleScenario}>
                         {data && data.map((obj) => {
                             return <option key={obj.scenario} value={obj.id}>{obj.scenario}</option>
                         })}
