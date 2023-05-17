@@ -214,6 +214,10 @@ const Start = styled.button`
     border: none;
     border-radius: 5px;
     color: white;
+    transition: background-color 0.3s ease-in-out;
+    &:hover{
+        background-color: rgba(64, 237, 48, 0.6);
+    }
 `;
 
 const Stop = styled.button`
@@ -225,6 +229,10 @@ const Stop = styled.button`
     border: none;
     border-radius: 5px;
     color: white;
+    transition: background-color 0.3s ease-in-out;
+    &:hover{
+        background-color: rgba(12, 141, 246, 0.6);
+    }
 `;
 
 const Simulator = styled.div`
@@ -283,9 +291,3 @@ const Automobile = styled.div`
 
 
 export default Home;
-
-
-
-
-
-// "start": "json-server --watch db.json --port 3030",

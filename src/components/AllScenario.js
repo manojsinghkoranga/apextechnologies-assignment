@@ -95,6 +95,10 @@ const Newscenario = styled.button`
     color: white;
     height: 30px;
     width: 120px;
+    transition: background-color 0.3s ease-in-out;
+    &:hover{
+        background-color: rgba(29, 193, 242, 0.6);
+    }
 `;
 
 const Addvehicle = styled.button`
@@ -105,6 +109,10 @@ const Addvehicle = styled.button`
     color: white;
     height: 30px;
     width: 120px;
+    transition: background-color 0.3s ease-in-out;
+    &:hover{
+        background-color: rgba(19, 240, 38, 0.6);
+    }
 `;
 
 const Deleteall = styled.button`
@@ -115,6 +123,10 @@ const Deleteall = styled.button`
     color: white;
     height: 30px;
     width: 120px;
+    transition: background-color 0.3s ease-in-out;
+    &:hover{
+        background-color: rgba(245, 106, 20, 0.6);
+    }
 `;
 
 const Table = styled.table`

@@ -4,7 +4,6 @@ import Home from './components/Home';
 import AddScenario from './components/AddScenario';
 import AllScenario from './components/AllScenario';
 import AddVehicle from './components/AddVehicle';
-import Test from './components/test';
 import Addvehiclewithparams from './components/Addvehicleparams';
 import AddScenarioedit from './components/Addscenarioedit';
 import EditVehicle from './components/EditVehicle';
@@ -37,7 +36,6 @@ const router = createBrowserRouter ([
 function App() {
   return (
     <RouterProvider router={router} />
-    // <Test />
   );
 }
 

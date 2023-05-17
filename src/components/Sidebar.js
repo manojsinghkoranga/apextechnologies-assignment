@@ -51,6 +51,10 @@ const Normaldiv = styled.div`
     height: 50px;
     display: flex;
     align-items: center;
+    transition: background-color 0.3s ease-in-out;
+    &:hover{
+        background-color: rgb(49, 134, 232);
+    }
 `;
 
 const Poplink = styled(Link)`
@@ -69,6 +73,7 @@ const Normallink = styled(Link)`
     font-size: large;
     font-weight: 600;
     color: black;
+
 `;
 
 export default Sidebar;

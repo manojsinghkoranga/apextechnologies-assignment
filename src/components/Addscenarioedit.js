@@ -179,6 +179,10 @@ const Add = styled.button`
     background-color: rgb(74, 199, 36);
     color: white;
     font-weight: 600;
+    transition: background-color 0.3s ease-in-out;
+    &:hover{
+        background-color: rgba(74, 199, 36 , 0.6);
+    }
 `;
 const Reset = styled.button`
     height: 35px;
@@ -188,6 +192,10 @@ const Reset = styled.button`
     background-color: rgb(242, 182, 29);
     color: white;
     font-weight: 600;
+    transition: background-color 0.3s ease-in-out;
+    &:hover{
+        background-color: rgba(242, 182, 29, 0.6);
+    }
 `;
 const Goback = styled.button`
     height: 35px;
@@ -197,5 +205,9 @@ const Goback = styled.button`
     background-color: rgb(29, 193, 242);
     color: white;
     font-weight: 600;
+    transition: background-color 0.3s ease-in-out;
+    &:hover{
+        background-color: rgba(29, 193, 242, 0.6);
+    }
 `;
 export default AddScenarioedit;
